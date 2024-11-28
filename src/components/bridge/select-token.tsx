@@ -3,8 +3,6 @@
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useMemo, type FC } from "react";
-import Image from "next/image";
-import { type Chain } from "thirdweb";
 
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
@@ -22,11 +20,11 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { useDisclosure } from "~/hooks/use-disclosure";
-import { getChainIcon } from "~/config/chains";
+import { type LayerZeroChain } from "~/config/chains";
 import { tokenByNetwork, type Token } from "~/config/tokens";
 
 export interface SelectTokenProps {
-  chain?: Chain;
+  chain?: LayerZeroChain;
   value?: Token;
   onChangeValue: (token: Token) => void;
   className?: string;
@@ -85,14 +83,6 @@ export const SelectToken: FC<SelectTokenProps> = ({
                     onToggle();
                   }}
                 >
-                  <Image
-                    src={getChainIcon(Number(option.value))}
-                    alt={option.label ?? ""}
-                    className="size-4"
-                    width={16}
-                    height={16}
-                    unoptimized
-                  />
                   {option.label}
                   <Check
                     className={cn(

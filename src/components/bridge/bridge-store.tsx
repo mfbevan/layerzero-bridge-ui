@@ -1,5 +1,5 @@
-import { type Chain } from "thirdweb";
 import { create } from "zustand";
+import { LayerZeroChain } from "~/config/chains/types";
 
 import { type Token } from "~/config/tokens";
 
@@ -12,10 +12,10 @@ export interface BridgeStore {
   amountTo?: string;
   setAmountFrom: (amount: string) => void;
   setAmountTo: (amount: string) => void;
-  chainFrom?: Chain;
-  chainTo?: Chain;
-  setChainFrom: (chain: Chain) => void;
-  setChainTo: (chain: Chain) => void;
+  chainFrom?: LayerZeroChain;
+  chainTo?: LayerZeroChain;
+  setChainFrom: (chain: LayerZeroChain) => void;
+  setChainTo: (chain: LayerZeroChain) => void;
   slippage: number;
   setSlippage: (slippage: number) => void;
   flip: () => void;
@@ -36,7 +36,5 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
       tokenTo: state.tokenFrom,
       chainFrom: state.chainTo,
       chainTo: state.chainFrom,
-      amountFrom: state.amountTo,
-      amountTo: state.amountFrom,
     })),
 }));

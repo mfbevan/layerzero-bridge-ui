@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, type FC } from "react";
-import { ArrowDown, ArrowUpDown } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 import { Card } from "../ui/card";
 import { Label } from "../ui/label";
@@ -44,7 +44,7 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
   }, [initialState]);
 
   return (
-    <Card className="flex w-full max-w-md flex-col gap-4 p-4">
+    <Card className="flex w-full max-w-md flex-col gap-4 border-input p-4">
       <div className="flex flex-col gap-4">
         <Label className="font-sans uppercase">Bridge From</Label>
         <div className="flex items-center gap-4">
@@ -57,6 +57,7 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
             chains={chains}
             value={chainFrom}
             onChangeValue={setChainFrom}
+            forceSwitch
           />
         </div>
         <EnterAmount amount={amountFrom} onChange={setAmountFrom} />

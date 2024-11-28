@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
+    "@layerzerolabs/lz-definitions": "^3.0.19",
+    "@layerzerolabs/lz-v2-utilities": "^3.0.19",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",

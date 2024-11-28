@@ -1,6 +1,7 @@
 import { useTheme } from "next-themes";
-import { Button } from "../ui/button";
 import { Moon, Sun } from "lucide-react";
+
+import { Button } from "../ui/button";
 
 export const ColorModeButton = () => {
   const { setTheme, theme } = useTheme();

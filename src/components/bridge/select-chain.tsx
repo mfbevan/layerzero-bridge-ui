@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { type Chain } from "thirdweb/chains";
-import { useMemo, type FC } from "react";
+import { useEffect, useMemo, type FC } from "react";
 import Image from "next/image";
+import { useSwitchActiveWalletChain } from "thirdweb/react";
 
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
@@ -22,13 +21,18 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { useDisclosure } from "~/hooks/use-disclosure";
-import { getChainIcon } from "~/config/chains";
+import {
+  getChain,
+  toThirdwebChain,
+  type LayerZeroChain,
+} from "~/config/chains";
 
 export interface SelectChainProps {
-  value?: Chain;
-  onChangeValue: (chain: Chain) => void;
-  chains: Chain[];
+  value?: LayerZeroChain;
+  onChangeValue: (chain: LayerZeroChain) => void;
+  chains: LayerZeroChain[];
   className?: string;
+  forceSwitch?: boolean;
 }
 
 export const SelectChain: FC<SelectChainProps> = ({
@@ -36,8 +40,10 @@ export const SelectChain: FC<SelectChainProps> = ({
   onChangeValue,
   chains,
   className,
+  forceSwitch = false,
 }) => {
   const { isOpen, onToggle } = useDisclosure();
+  const switchChain = useSwitchActiveWalletChain();
 
   const options = useMemo(() => {
     return chains.map((chain) => ({
@@ -50,6 +56,19 @@ export const SelectChain: FC<SelectChainProps> = ({
     return options.find((option) => option.value === value?.id.toString());
   }, [options, value]);
 
+  const selectedChain = useMemo(() => {
+    return getChain(Number(selectedOption?.value));
+  }, [selectedOption]);
+
+  useEffect(() => {
+    if (forceSwitch && selectedOption) {
+      const chain = chains.find(
+        (chain) => chain.id.toString() === selectedOption.value,
+      );
+      if (chain) void switchChain(toThirdwebChain(chain));
+    }
+  }, [forceSwitch, switchChain, selectedOption, chains]);
+
   return (
     <Popover open={isOpen} onOpenChange={onToggle}>
       <PopoverTrigger asChild>
@@ -61,7 +80,7 @@ export const SelectChain: FC<SelectChainProps> = ({
         >
           <div className="flex items-center gap-2">
             <Image
-              src={getChainIcon(Number(selectedOption?.value))}
+              src={selectedChain?.icon ?? "./icon_gray.jpeg"}
               alt={selectedOption?.label ?? ""}
               className="size-6"
               width={24}
@@ -84,16 +103,12 @@ export const SelectChain: FC<SelectChainProps> = ({
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    onChangeValue(
-                      chains.find(
-                        (chain) => chain.id.toString() === currentValue,
-                      )!,
-                    );
+                    onChangeValue(getChain(Number(currentValue)));
                     onToggle();
                   }}
                 >
                   <Image
-                    src={getChainIcon(Number(option.value))}
+                    src={getChain(Number(option.value)).icon}
                     alt={option.label ?? ""}
                     className="size-6"
                     width={24}

@@ -10,12 +10,14 @@ import {
 } from "thirdweb/react";
 import { shortenAddress } from "thirdweb/utils";
 import { createWallet } from "thirdweb/wallets";
+import { mainnet, sepolia } from "thirdweb/chains";
 
 import { Button } from "../ui/button";
 
 import { useColorMode } from "~/hooks/use-color-mode";
 import { cn } from "~/lib/utils";
 import { client } from "~/config/thirdweb";
+import { mainnets, testnets, toThirdwebChain } from "~/config/chains";
 
 export interface WalletButtonProps {
   className?: string;
@@ -43,6 +45,7 @@ export const WalletButton: FC<WalletButtonProps> = ({ className }) => {
           createWallet("io.rabby"),
           createWallet("io.zerion.wallet"),
         ]}
+        chains={[...mainnets, ...testnets].map(toThirdwebChain)}
         theme={
           isLight
             ? lightTheme({

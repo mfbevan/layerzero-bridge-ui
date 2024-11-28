@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 export const useIsMobile = (breakpoint = 768) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -29,7 +29,7 @@ export const useDesktopOnly = (node: ReactNode) => {
 
 export const useMobileDesktop = <T extends ReactNode | object>(
   mobileNode: T,
-  desktopNode: T
+  desktopNode: T,
 ): T => {
   const isMobile = useIsMobile();
   return isMobile ? mobileNode : desktopNode;

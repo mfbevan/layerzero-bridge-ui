@@ -1,11 +1,11 @@
-import { type Chain } from "thirdweb";
-
 import { Oft__factory, OftAdapter__factory } from "./typechain";
 import { createProvider } from "./provider";
 
+import { type LayerZeroChain } from "~/config/chains";
+
 interface CreateContractOptions {
   address: string;
-  chain: Chain;
+  chain: LayerZeroChain;
 }
 
 export const createOft = ({ address, chain }: CreateContractOptions) => {

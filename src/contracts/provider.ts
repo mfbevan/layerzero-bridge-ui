@@ -1,8 +1,9 @@
 import { JsonRpcProvider } from "ethers";
-import { type Chain } from "thirdweb";
+
+import { type LayerZeroChain } from "~/config/chains";
 
 interface CreateProviderOptions {
-  chain: Chain;
+  chain: LayerZeroChain;
 }
 
 const providerCache = new Map<number, JsonRpcProvider>();
