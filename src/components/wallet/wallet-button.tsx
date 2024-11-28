@@ -10,7 +10,6 @@ import {
 } from "thirdweb/react";
 import { shortenAddress } from "thirdweb/utils";
 import { createWallet } from "thirdweb/wallets";
-import { mainnet, sepolia } from "thirdweb/chains";
 
 import { Button } from "../ui/button";
 

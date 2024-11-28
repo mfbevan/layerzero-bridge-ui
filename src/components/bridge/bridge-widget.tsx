@@ -14,6 +14,7 @@ import { EnterAmount } from "./enter-amount";
 import { SelectToken } from "./select-token";
 import { Fees } from "./fees";
 import { EnterAddress } from "./enter-address";
+import { DestinationToken } from "./destination-token";
 
 import { useConfig } from "~/config/environment";
 
@@ -46,6 +47,7 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
     <Card className="flex w-full max-w-md flex-col gap-4 border-input p-4">
       <div className="flex flex-col gap-4">
         <Label className="font-sans uppercase">Bridge From</Label>
+
         <div className="flex items-center gap-4">
           <SelectToken
             chain={chainFrom}
@@ -74,11 +76,15 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
       <div className="flex flex-col gap-4">
         <Label className="font-sans uppercase">Bridge To</Label>
 
-        <SelectChain
-          chains={chains}
-          value={chainTo}
-          onChangeValue={setChainTo}
-        />
+        <div className="flex items-center gap-4">
+          <DestinationToken />
+
+          <SelectChain
+            chains={chains}
+            value={chainTo}
+            onChangeValue={setChainTo}
+          />
+        </div>
 
         <EnterAddress value={addressTo} onChange={setAddressTo} />
       </div>

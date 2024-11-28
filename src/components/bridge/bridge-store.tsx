@@ -5,9 +5,7 @@ import { type Token } from "~/config/tokens";
 
 export interface BridgeStore {
   tokenFrom?: Token;
-  tokenTo?: Token;
   setTokenFrom: (token: Token) => void;
-  setTokenTo: (token: Token) => void;
   amountFrom?: string;
   amountTo?: string;
   setAmountFrom: (amount: string) => void;
@@ -20,12 +18,13 @@ export interface BridgeStore {
   setAddressTo: (address: string) => void;
   slippage: number;
   setSlippage: (slippage: number) => void;
+  native: boolean;
+  setNative: (native: boolean) => void;
   flip: () => void;
 }
 
 export const useBridgeStore = create<BridgeStore>()((set) => ({
   setTokenFrom: (token) => set({ tokenFrom: token }),
-  setTokenTo: (token) => set({ tokenTo: token }),
   setAmountFrom: (amount) => set({ amountFrom: amount }),
   setAmountTo: (amount) => set({ amountTo: amount }),
   setChainFrom: (chain) => set({ chainFrom: chain }),
@@ -33,6 +32,8 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
   setAddressTo: (address) => set({ addressTo: address }),
   slippage: 50,
   setSlippage: (slippage) => set({ slippage }),
+  native: true,
+  setNative: (native) => set({ native }),
   flip: () =>
     set((state) => ({
       tokenFrom: state.tokenTo,

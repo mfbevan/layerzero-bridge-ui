@@ -1,4 +1,4 @@
-import { mainnet } from "thirdweb/chains";
+import { optimismSepolia, sepolia } from "./chains/testnet";
 
 export interface Token {
   address: string;
@@ -7,6 +7,21 @@ export interface Token {
   decimals: number;
 }
 
+export const sepoliaToken = {
+  address: "0xa4088E28EF4Dc09739093C8B7cFCd868382C3A37",
+  name: "Sepolia Coin",
+  symbol: "SEP",
+  decimals: 18,
+};
+
+export const optimismSepoliaToken = {
+  address: "0xa4088E28EF4Dc09739093C8B7cFCd868382C3A37",
+  name: "Optimism Sepolia Coin",
+  symbol: "OPSEP",
+  decimals: 18,
+};
+
 export const tokenByNetwork: Record<number, Token[]> = {
-  [mainnet.id]: [],
+  [sepolia.id]: [sepoliaToken],
+  [optimismSepolia.id]: [optimismSepoliaToken],
 };

@@ -7,34 +7,35 @@ import { useBridge } from "../../hooks/use-bridge";
 import { useBridgeStore } from "./bridge-store";
 
 export const Fees: FC = () => {
-  const { slippage, amountFrom, tokenFrom } = useBridgeStore();
-  const { estimate } = useBridge();
-  // const estimate = { isLoading: true };
+  const { slippage, amountFrom, tokenFrom, native } = useBridgeStore();
+  const { estimate, isConfigurationValid } = useBridge();
 
   return (
     <div className="flex flex-col gap-2">
       <Item
         label="Receive on Destination"
         value={
-          amountFrom
+          isConfigurationValid
             ? formatUnits(
                 parseEther(amountFrom ?? "0"),
                 tokenFrom?.decimals ?? 18,
               )
-            : "0"
+            : "--"
         }
         isLoading={estimate.isLoading}
       />
       <Item
-        label="Bridge Fee"
-        value="100 gwei"
+        label={`Bridge Fee (${native ? "Native" : "LZ Token"})`}
+        value={
+          isConfigurationValid
+            ? native
+              ? formatUnits(estimate.data?.nativeFee ?? 0n, 18)
+              : formatUnits(estimate.data?.lzTokenFee ?? 0n, 18)
+            : "--"
+        }
         isLoading={estimate.isLoading}
       />
-      <Item
-        label="Slippage"
-        value={`${(slippage / 100).toFixed(2)}%`}
-        isLoading={estimate.isLoading}
-      />
+      <Item label="Slippage" value={`${(slippage / 100).toFixed(2)}%`} />
     </div>
   );
 };
