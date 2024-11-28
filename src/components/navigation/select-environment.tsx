@@ -16,17 +16,17 @@ export const SelectEnvironment: FC = () => {
 
   return (
     <Select value={environment} onValueChange={changeEnvironment}>
-      <SelectTrigger className="w-[130px]">
+      <SelectTrigger className="w-[130px] font-mono text-xs uppercase">
         <SelectValue placeholder="Select environment" />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup>
-          <SelectItem value="mainnet">
+        <SelectGroup className="font-mono text-xs uppercase">
+          <SelectItem value="mainnet" className="text-xs">
             <Globe className="mr-2 inline size-4 pb-[2px]" />
             Mainnet
           </SelectItem>
-          <SelectItem value="testnet">
-            <TestTube className="mr-2 inline size-4 pb-[2px]" />
+          <SelectItem value="testnet" className="text-xs">
+            <TestTube className="mr-2 inline size-4 rotate-[30deg] pb-[2px]" />
             Testnet
           </SelectItem>
         </SelectGroup>

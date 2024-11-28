@@ -2,7 +2,7 @@ import { BridgeWidget } from "~/components/bridge/bridge-widget";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b text-white">
+    <main className="flex h-full flex-col items-center justify-center pb-16">
       <BridgeWidget />
     </main>
   );
