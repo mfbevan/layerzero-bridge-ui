@@ -8,6 +8,7 @@ import Providers from "./providers";
 import { Navbar } from "~/components/navigation/navbar";
 import { cn } from "~/lib/utils";
 import { roboto, robotoMono } from "~/styles/fonts";
+import { Footer } from "~/components/navigation/footer";
 
 export const metadata: Metadata = {
   title: "LayerZero Bridge",
@@ -24,11 +25,12 @@ export default function RootLayout({
       className={cn(roboto.variable, robotoMono.variable)}
       suppressHydrationWarning
     >
-      <body className="h-screen w-screen overflow-hidden">
+      <body className="h-screen w-screen">
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="dark">
             <Navbar />
             {children}
+            <Footer />
           </ThemeProvider>
         </Providers>
       </body>

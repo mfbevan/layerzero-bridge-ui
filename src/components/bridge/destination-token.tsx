@@ -25,7 +25,7 @@ export const DestinationToken = () => {
   if (isLoading) return <Skeleton className="h-9 w-full" />;
 
   return (
-    <div className="flex h-9 w-full items-center border p-1 text-sm">
+    <div className="flex h-9 w-full items-center border p-2 text-sm">
       {value ?? "--"}
     </div>
   );

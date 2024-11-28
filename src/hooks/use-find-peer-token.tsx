@@ -57,5 +57,6 @@ export const useFindPeerToken = ({
         decimals,
       };
     },
+    enabled: !!chainFrom && !!chainTo && !!addressFrom,
   });
 };
