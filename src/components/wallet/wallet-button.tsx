@@ -72,7 +72,7 @@ export const WalletButton: FC<WalletButtonProps> = ({ className }) => {
         detailsButton={{
           render: () => {
             return (
-              <Button variant="outline" className="gap-2 p-2">
+              <Button variant="outline" className="gap-2 p-2 text-xs">
                 <WalletCards className="size-4" />
                 {shortenAddress(account?.address ?? "", 4)}
               </Button>

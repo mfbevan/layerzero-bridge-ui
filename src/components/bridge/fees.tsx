@@ -2,9 +2,9 @@ import { type ReactNode, type FC } from "react";
 import { formatUnits, parseEther } from "ethers";
 
 import { Skeleton } from "../ui/skeleton";
+import { useBridge } from "../../hooks/use-bridge";
 
 import { useBridgeStore } from "./bridge-store";
-import { useBridge } from "./use-bridge";
 
 export const Fees: FC = () => {
   const { slippage, amountFrom, tokenFrom } = useBridgeStore();
@@ -32,7 +32,7 @@ export const Fees: FC = () => {
       />
       <Item
         label="Slippage"
-        value={`${slippage.toFixed(2)}%`}
+        value={`${(slippage / 100).toFixed(2)}%`}
         isLoading={estimate.isLoading}
       />
     </div>

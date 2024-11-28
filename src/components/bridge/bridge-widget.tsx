@@ -13,6 +13,7 @@ import { SelectChain } from "./select-chain";
 import { EnterAmount } from "./enter-amount";
 import { SelectToken } from "./select-token";
 import { Fees } from "./fees";
+import { EnterAddress } from "./enter-address";
 
 import { useConfig } from "~/config/environment";
 
@@ -28,13 +29,11 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
     setChainFrom,
     setChainTo,
     amountFrom,
-    amountTo,
     setAmountFrom,
-    setAmountTo,
     tokenFrom,
-    tokenTo,
     setTokenFrom,
-    setTokenTo,
+    addressTo,
+    setAddressTo,
   } = useBridgeStore();
   const { chains } = useConfig();
 
@@ -80,6 +79,8 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
           value={chainTo}
           onChangeValue={setChainTo}
         />
+
+        <EnterAddress value={addressTo} onChange={setAddressTo} />
       </div>
 
       <Fees />

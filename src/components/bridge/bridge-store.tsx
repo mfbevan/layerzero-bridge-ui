@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { LayerZeroChain } from "~/config/chains/types";
 
+import { type LayerZeroChain } from "~/config/chains/types";
 import { type Token } from "~/config/tokens";
 
 export interface BridgeStore {
@@ -16,6 +16,8 @@ export interface BridgeStore {
   chainTo?: LayerZeroChain;
   setChainFrom: (chain: LayerZeroChain) => void;
   setChainTo: (chain: LayerZeroChain) => void;
+  addressTo?: string;
+  setAddressTo: (address: string) => void;
   slippage: number;
   setSlippage: (slippage: number) => void;
   flip: () => void;
@@ -28,7 +30,8 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
   setAmountTo: (amount) => set({ amountTo: amount }),
   setChainFrom: (chain) => set({ chainFrom: chain }),
   setChainTo: (chain) => set({ chainTo: chain }),
-  slippage: 0.5,
+  setAddressTo: (address) => set({ addressTo: address }),
+  slippage: 50,
   setSlippage: (slippage) => set({ slippage }),
   flip: () =>
     set((state) => ({
