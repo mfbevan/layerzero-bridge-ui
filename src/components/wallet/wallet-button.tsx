@@ -10,10 +10,12 @@ import {
 } from "thirdweb/react";
 import { shortenAddress } from "thirdweb/utils";
 import { createWallet } from "thirdweb/wallets";
+
+import { Button } from "../ui/button";
+
 import { useColorMode } from "~/hooks/use-color-mode";
 import { cn } from "~/lib/utils";
 import { client } from "~/config/thirdweb";
-import { Button } from "../ui/button";
 
 export interface WalletButtonProps {
   className?: string;
@@ -62,10 +64,7 @@ export const WalletButton: FC<WalletButtonProps> = ({ className }) => {
         }
         connectButton={{
           label: "CONNECT",
-          className: "text-xs h-9 rounded-none",
-        }}
-        signInButton={{
-          className: "text-sm h-9 rounded-none h-9 ",
+          style: {},
         }}
         detailsButton={{
           render: () => {

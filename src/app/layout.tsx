@@ -1,9 +1,11 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
-import { ThirdwebProvider } from "thirdweb/react";
-import { Navbar } from "~/components/navigation/navbar";
 import { ThemeProvider } from "next-themes";
+
+import Providers from "./providers";
+
+import { Navbar } from "~/components/navigation/navbar";
 import { cn } from "~/lib/utils";
 import { roboto, robotoMono } from "~/styles/fonts";
 
@@ -22,14 +24,14 @@ export default function RootLayout({
       className={cn(roboto.variable, robotoMono.variable)}
       suppressHydrationWarning
     >
-      <ThirdwebProvider>
-        <body className="h-screen w-screen overflow-hidden">
+      <body className="h-screen w-screen overflow-hidden">
+        <Providers>
           <ThemeProvider attribute="class" defaultTheme="dark">
             <Navbar />
             {children}
           </ThemeProvider>
-        </body>
-      </ThirdwebProvider>
+        </Providers>
+      </body>
     </html>
   );
 }

@@ -35,6 +35,7 @@ const config = {
         },
       },
     ],
+    "import/order": ["warn", { "newlines-between": "always" }],
   },
 };
 module.exports = config;

@@ -1,4 +1,4 @@
-import { BridgeWidget } from "~/components/bridge/swap-widget";
+import { BridgeWidget } from "~/components/bridge/bridge-widget";
 
 export default function HomePage() {
   return (
