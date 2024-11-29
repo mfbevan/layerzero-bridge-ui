@@ -36,7 +36,6 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
   setNative: (native) => set({ native }),
   flip: () =>
     set((state) => ({
-      tokenFrom: state.tokenTo,
       tokenTo: state.tokenFrom,
       chainFrom: state.chainTo,
       chainTo: state.chainFrom,

@@ -30,13 +30,13 @@ export const EnterAddress: FC<EnterAddressProps> = ({
       <Input
         className="h-fit p-2 text-sm"
         type="text"
-        placeholder="Enter recipient address."
+        placeholder="Enter recipient address"
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
         {...props}
       />
       <div className="flex items-center justify-end gap-1 text-xs">
-        <TooltipProvider>
+        <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button

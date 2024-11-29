@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { bytes32ToEthAddress, Options } from "@layerzerolabs/lz-v2-utilities";
+import { Options } from "@layerzerolabs/lz-v2-utilities";
 import { useActiveAccount } from "thirdweb/react";
 import { parseEther, zeroPadBytes } from "ethers";
 import { useMemo } from "react";

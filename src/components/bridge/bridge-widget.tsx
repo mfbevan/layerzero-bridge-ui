@@ -46,7 +46,7 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
   return (
     <Card className="flex w-full max-w-md flex-col gap-4 border-input p-4">
       <div className="flex flex-col gap-4">
-        <Label className="font-sans uppercase">Bridge From</Label>
+        <Label className="font-mono font-bold uppercase">Bridge From</Label>
 
         <div className="flex items-center gap-4">
           <SelectToken
@@ -74,7 +74,7 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
       </div>
 
       <div className="flex flex-col gap-4">
-        <Label className="font-sans uppercase">Bridge To</Label>
+        <Label className="font-mono font-bold uppercase">Bridge To</Label>
 
         <div className="flex items-center gap-4">
           <DestinationToken />
