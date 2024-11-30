@@ -6,22 +6,37 @@ import { useMemo } from "react";
 
 import { useBridgeStore } from "../components/bridge/bridge-store";
 
+import { useSigner } from "./use-signer";
+
 import { createOft } from "~/contracts";
-import { type SendParamStruct } from "~/contracts/typechain/Oft";
+import {
+  type MessagingFeeStruct,
+  type SendParamStruct,
+} from "~/contracts/typechain/Oft";
 
 export const ESTIMATE_QUERY_KEY = "bridge-estimate";
 
 interface EstimateResponse {
   nativeFee?: bigint;
   lzTokenFee?: bigint;
-  error?: string;
-  destinationToken?: string;
+  sendParams?: SendParamStruct;
+  messagingFee?: MessagingFeeStruct;
 }
 
 export const useBridge = () => {
   const account = useActiveAccount();
-  const { tokenFrom, addressTo, chainFrom, chainTo, amountFrom, slippage } =
-    useBridgeStore();
+  const signer = useSigner();
+
+  const {
+    tokenFrom,
+    addressTo,
+    chainFrom,
+    chainTo,
+    amountFrom,
+    slippage,
+    setTx,
+    setReceipt,
+  } = useBridgeStore();
 
   const isConfigurationValid = useMemo(
     (): boolean =>
@@ -42,13 +57,12 @@ export const useBridge = () => {
       chainTo?.id,
     ],
     queryFn: async (): Promise<EstimateResponse> => {
-      if (!tokenFrom?.address || !chainFrom || !chainTo || !amountFrom) {
-        return {};
-      }
+      if (!tokenFrom?.address || !chainFrom || !chainTo || !amountFrom)
+        throw new Error("Invalid configuration");
 
       const to = addressTo ?? account?.address;
 
-      if (!to) return { error: "No recipient address" };
+      if (!to) throw new Error("No recipient address");
 
       // TODO: allow advanced configuration of options
       const extraOptions = Options.newOptions()
@@ -69,15 +83,16 @@ export const useBridge = () => {
         oftCmd: "0x",
       };
 
-      console.log("sendParams", sendParams);
-
       const oft = createOft({ chain: chainFrom, address: tokenFrom.address });
 
+      // TODO: configure allowing send with LZ token fee (set to true)
       const [nativeFee, lzTokenFee] = await oft.quoteSend(sendParams, false);
 
       return {
         nativeFee,
         lzTokenFee,
+        sendParams,
+        messagingFee: { nativeFee, lzTokenFee } as MessagingFeeStruct,
       };
     },
     enabled: isConfigurationValid,
@@ -86,9 +101,30 @@ export const useBridge = () => {
 
   const bridge = useMutation({
     mutationFn: async () => {
-      return {
-        tx: "0x123",
-      };
+      if (
+        !tokenFrom?.address ||
+        !chainFrom ||
+        !chainTo ||
+        !amountFrom ||
+        !account?.address
+      )
+        throw new Error("Invalid configuration");
+
+      if (!estimate.data?.sendParams) throw new Error("No send params");
+      const oft = createOft({
+        chain: chainFrom,
+        address: tokenFrom.address,
+      }).connect(signer);
+
+      const { sendParams, messagingFee } = estimate.data;
+      if (!sendParams || !messagingFee) throw new Error("No send quote");
+
+      const tx = await oft.send(sendParams, messagingFee, account.address, {
+        value: messagingFee.nativeFee,
+      });
+      setTx(tx);
+      const receipt = await tx.wait();
+      setReceipt(receipt!);
     },
   });
 

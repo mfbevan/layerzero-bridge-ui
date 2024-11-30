@@ -1,3 +1,7 @@
+import {
+  type ContractTransactionReceipt,
+  type ContractTransactionResponse,
+} from "ethers";
 import { create } from "zustand";
 
 import { type LayerZeroChain } from "~/config/chains/types";
@@ -21,6 +25,10 @@ export interface BridgeStore {
   native: boolean;
   setNative: (native: boolean) => void;
   flip: () => void;
+  tx?: ContractTransactionResponse;
+  setTx: (tx: ContractTransactionResponse) => void;
+  receipt?: ContractTransactionReceipt;
+  setReceipt: (receipt: ContractTransactionReceipt) => void;
 }
 
 export const useBridgeStore = create<BridgeStore>()((set) => ({
@@ -40,4 +48,8 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
       chainFrom: state.chainTo,
       chainTo: state.chainFrom,
     })),
+  tx: undefined,
+  setTx: (tx) => set({ tx }),
+  receipt: undefined,
+  setReceipt: (receipt) => set({ receipt }),
 }));

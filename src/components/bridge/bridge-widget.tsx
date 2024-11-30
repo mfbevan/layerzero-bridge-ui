@@ -15,6 +15,7 @@ import { Fees } from "./fees";
 import { EnterAddress } from "./enter-address";
 import { DestinationToken } from "./destination-token";
 import { BridgeButton } from "./bridge-button";
+import { BridgeTx } from "./bridge-tx";
 
 import { useConfig } from "~/config/environment";
 
@@ -35,6 +36,8 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
     setTokenFrom,
     addressTo,
     setAddressTo,
+    tx,
+    receipt,
   } = useBridgeStore();
   const { chains } = useConfig();
 
@@ -97,6 +100,8 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
       <Fees />
 
       <BridgeButton />
+
+      <BridgeTx tx={tx} receipt={receipt} />
     </Card>
   );
 };
