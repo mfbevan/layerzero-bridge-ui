@@ -8,7 +8,7 @@ export const testnets = [
   sepolia,
   optimismSepolia,
   baseSepolia,
-  avalancheFuji,
-  polygonAmoy,
+  // avalancheFuji,
+  // polygonAmoy,
 ];
 export { sepolia, optimismSepolia, baseSepolia, avalancheFuji, polygonAmoy };
