@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { WalletButton } from "../wallet/wallet-button";
 
@@ -10,7 +11,9 @@ import { SelectEnvironment } from "./select-environment";
 import {
   NavigationMenu,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
+  navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu";
 import { useColorModeValue } from "~/hooks/use-color-mode";
 
@@ -27,15 +30,21 @@ export const Navbar = () => {
             width={32}
             height={32}
           />
-          {/* <NavigationMenuItem>
+          <NavigationMenuItem>
             <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Bridge
               </NavigationMenuLink>
             </Link>
-          </NavigationMenuItem> */}
+          </NavigationMenuItem>
 
-          <NavigationMenuItem></NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link href="/faucet" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Faucet
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
         </NavigationMenuList>
 
         <div className="flex items-center gap-2">

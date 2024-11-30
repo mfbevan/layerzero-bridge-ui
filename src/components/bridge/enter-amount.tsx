@@ -16,6 +16,8 @@ export interface EnterAmountProps
   amount?: string;
   onChange: (amount: string) => void;
   maxDecimals?: number;
+  showMax?: boolean;
+  showBalance?: boolean;
 }
 
 export const EnterAmount: FC<EnterAmountProps> = ({
@@ -24,6 +26,8 @@ export const EnterAmount: FC<EnterAmountProps> = ({
   maxDecimals = 18, // Default to 18 decimals for most ERC20 tokens
   token,
   chain,
+  showMax = true,
+  showBalance = true,
   ...props
 }) => {
   const account = useActiveAccount();
@@ -68,17 +72,21 @@ export const EnterAmount: FC<EnterAmountProps> = ({
         onChange={(e) => handleChange(e.target.value)}
         {...props}
       />
-      <div className="flex items-center justify-end gap-1 text-xs">
-        <span className="text-muted-foreground">Available:</span>
-        {isLoading ? (
-          <Skeleton className="h-4 w-16" />
-        ) : (
-          <span>{balance?.balanceFormatted}</span>
-        )}
-        <Button className="p-2" variant="link" size="sm">
-          Max
-        </Button>
-      </div>
+      {showBalance && !!token && (
+        <div className="flex items-center justify-end gap-1 text-xs">
+          <span className="text-muted-foreground">Available:</span>
+          {isLoading ? (
+            <Skeleton className="h-4 w-16" />
+          ) : (
+            <span>{balance?.balanceFormatted}</span>
+          )}
+          {showMax && (
+            <Button className="p-2" variant="link" size="sm">
+              Max
+            </Button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { Navbar } from "~/components/navigation/navbar";
 import { cn } from "~/lib/utils";
 import { roboto, robotoMono } from "~/styles/fonts";
 import { Footer } from "~/components/navigation/footer";
+import { Toaster } from "~/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "LayerZero Bridge",
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="dark">
             <Navbar />
+            <Toaster />
             {children}
             <Footer />
           </ThemeProvider>

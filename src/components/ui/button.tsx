@@ -62,6 +62,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        disabled={isLoading ?? props.disabled}
         {...props}
       >
         {isLoading ? <Spinner size={4} /> : children}
