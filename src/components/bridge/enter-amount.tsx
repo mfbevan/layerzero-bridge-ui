@@ -1,10 +1,18 @@
 import { type InputHTMLAttributes, type FC } from "react";
+import { useActiveAccount } from "thirdweb/react";
 
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
+
+import { type Token } from "~/config/tokens";
+import { useBalance } from "~/hooks/use-balance";
+import { type LayerZeroChain } from "~/config/chains";
 
 export interface EnterAmountProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  token?: Token;
+  chain?: LayerZeroChain;
   amount?: string;
   onChange: (amount: string) => void;
   maxDecimals?: number;
@@ -14,8 +22,17 @@ export const EnterAmount: FC<EnterAmountProps> = ({
   amount,
   onChange,
   maxDecimals = 18, // Default to 18 decimals for most ERC20 tokens
+  token,
+  chain,
   ...props
 }) => {
+  const account = useActiveAccount();
+  const { data: balance, isLoading } = useBalance({
+    token,
+    address: account?.address,
+    chain,
+  });
+
   const handleChange = (value: string) => {
     // Remove any non-numeric characters except decimal point
     const sanitized = value.replace(/[^0-9.]/g, "");
@@ -52,7 +69,12 @@ export const EnterAmount: FC<EnterAmountProps> = ({
         {...props}
       />
       <div className="flex items-center justify-end gap-1 text-xs">
-        <span className="text-muted-foreground">Available: 0.00</span>
+        <span className="text-muted-foreground">Available:</span>
+        {isLoading ? (
+          <Skeleton className="h-4 w-16" />
+        ) : (
+          <span>{balance?.balanceFormatted}</span>
+        )}
         <Button className="p-2" variant="link" size="sm">
           Max
         </Button>

@@ -58,5 +58,6 @@ export const useFindPeerToken = ({
       };
     },
     enabled: !!chainFrom && !!chainTo && !!addressFrom,
+    retry: false,
   });
 };

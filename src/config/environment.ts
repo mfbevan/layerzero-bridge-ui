@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { type LayerZeroChain, mainnets, testnets } from "./chains";
-import { tokenByNetwork } from "./tokens";
+import { tokensByNetwork } from "./tokens";
 import { ethereum } from "./chains/mainnet";
 
 export const environments = ["mainnet", "testnet"] as const;
@@ -16,7 +16,7 @@ export interface ConfigStore {
 export const useConfig = create<ConfigStore>((set) => ({
   environment: "testnet",
   chains: testnets,
-  tokens: tokenByNetwork[ethereum.id] ?? [],
+  tokens: tokensByNetwork[ethereum.id] ?? [],
   changeEnvironment: (environment: Environment) => {
     const chains = environment === "mainnet" ? mainnets : testnets;
     set({ environment, chains });

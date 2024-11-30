@@ -6,7 +6,6 @@ import { ArrowUpDown } from "lucide-react";
 import { Card } from "../ui/card";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
-import { Button } from "../ui/button";
 
 import { useBridgeStore, type BridgeStore } from "./bridge-store";
 import { SelectChain } from "./select-chain";
@@ -62,7 +61,12 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
             forceSwitch
           />
         </div>
-        <EnterAmount amount={amountFrom} onChange={setAmountFrom} />
+        <EnterAmount
+          amount={amountFrom}
+          onChange={setAmountFrom}
+          token={tokenFrom}
+          chain={chainFrom}
+        />
       </div>
 
       <div

@@ -1,4 +1,4 @@
-import { optimismSepolia, sepolia } from "./chains/testnet";
+import { baseSepolia, optimismSepolia, sepolia } from "./chains/testnet";
 
 export interface Token {
   address: string;
@@ -8,20 +8,28 @@ export interface Token {
 }
 
 export const sepoliaToken = {
-  address: "0xa4088E28EF4Dc09739093C8B7cFCd868382C3A37",
-  name: "Sepolia Coin",
-  symbol: "SEP",
+  address: "0x0123494955606F83d0014C92cb3d27b590666171",
+  name: "TestOFT",
+  symbol: "TOFT",
   decimals: 18,
 };
 
 export const optimismSepoliaToken = {
-  address: "0xa4088E28EF4Dc09739093C8B7cFCd868382C3A37",
-  name: "Optimism Sepolia Coin",
-  symbol: "OPSEP",
+  address: "0xD9e9018B490D25969Ea985a67C005932B346F0D4",
+  name: "TestOFT",
+  symbol: "TOFT",
   decimals: 18,
 };
 
-export const tokenByNetwork: Record<number, Token[]> = {
+export const baseSepoliaToken = {
+  address: "0xafB76B8DafB42278a331F3a797B1Bf463607490C",
+  name: "TestOFT",
+  symbol: "TOFT",
+  decimals: 18,
+};
+
+export const tokensByNetwork: Record<number, Token[]> = {
   [sepolia.id]: [sepoliaToken],
   [optimismSepolia.id]: [optimismSepoliaToken],
+  [baseSepolia.id]: [baseSepoliaToken],
 };

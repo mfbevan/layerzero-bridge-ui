@@ -15,7 +15,7 @@ export const DestinationToken = () => {
   });
 
   const value = useMemo(() => {
-    if (!data?.address) return "No Token Found";
+    if (!data?.address) return "No Peer Token Found";
 
     if (!data.name && !data.symbol) return data.address;
 

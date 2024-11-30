@@ -21,7 +21,7 @@ import {
 } from "~/components/ui/popover";
 import { useDisclosure } from "~/hooks/use-disclosure";
 import { type LayerZeroChain } from "~/config/chains";
-import { tokenByNetwork, type Token } from "~/config/tokens";
+import { tokensByNetwork, type Token } from "~/config/tokens";
 
 export interface SelectTokenProps {
   chain?: LayerZeroChain;
@@ -39,7 +39,7 @@ export const SelectToken: FC<SelectTokenProps> = ({
   const { isOpen, onToggle } = useDisclosure();
 
   const tokens = useMemo(() => {
-    return chain ? (tokenByNetwork[chain.id] ?? []) : [];
+    return chain ? (tokensByNetwork[chain.id] ?? []) : [];
   }, [chain]);
 
   const options = useMemo(() => {
@@ -60,6 +60,7 @@ export const SelectToken: FC<SelectTokenProps> = ({
           aria-expanded={isOpen}
           className={cn("w-full justify-between", className)}
         >
+          <></>
           {value
             ? options.find((option) => option.value === value.address)?.label
             : "Select token..."}
