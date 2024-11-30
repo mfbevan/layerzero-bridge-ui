@@ -4,8 +4,11 @@ import { mainnets } from "./mainnet";
 import { testnets } from "./testnet";
 import { type LayerZeroChain } from "./types";
 
-const getChain = (chainId: number): LayerZeroChain => {
+const getChainById = (chainId: number): LayerZeroChain => {
   return [...mainnets, ...testnets].find((chain) => chain.id === chainId)!;
+};
+const getChainByName = (chainName: string): LayerZeroChain => {
+  return [...mainnets, ...testnets].find((chain) => chain.name === chainName)!;
 };
 
 const toThirdwebChain = (chain: LayerZeroChain): Chain => {
@@ -19,4 +22,4 @@ const toThirdwebChain = (chain: LayerZeroChain): Chain => {
 };
 
 export type { LayerZeroChain };
-export { getChain, toThirdwebChain, mainnets, testnets };
+export { getChainById, getChainByName, toThirdwebChain, mainnets, testnets };

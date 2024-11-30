@@ -24,8 +24,13 @@ export const useBridge = () => {
     useBridgeStore();
 
   const isConfigurationValid = useMemo(
-    () => tokenFrom?.address && chainFrom && chainTo && amountFrom,
-    [tokenFrom?.address, chainFrom, chainTo, amountFrom],
+    (): boolean =>
+      !!tokenFrom?.address &&
+      !!chainFrom &&
+      !!chainTo &&
+      !!amountFrom &&
+      !!addressTo,
+    [tokenFrom?.address, chainFrom, chainTo, amountFrom, addressTo],
   );
 
   const estimate = useQuery({
@@ -37,9 +42,7 @@ export const useBridge = () => {
       chainTo?.id,
     ],
     queryFn: async (): Promise<EstimateResponse> => {
-      console.log("QUERY QUERY QUERY QUERY QUERY QUERY");
       if (!tokenFrom?.address || !chainFrom || !chainTo || !amountFrom) {
-        console.log("no data");
         return {};
       }
 
@@ -77,6 +80,7 @@ export const useBridge = () => {
         lzTokenFee,
       };
     },
+    enabled: isConfigurationValid,
     staleTime: 1000,
   });
 

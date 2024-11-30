@@ -14,8 +14,8 @@ export interface ConfigStore {
 }
 
 export const useConfig = create<ConfigStore>((set) => ({
-  environment: "mainnet",
-  chains: mainnets,
+  environment: "testnet",
+  chains: testnets,
   tokens: tokenByNetwork[ethereum.id] ?? [],
   changeEnvironment: (environment: Environment) => {
     const chains = environment === "mainnet" ? mainnets : testnets;
