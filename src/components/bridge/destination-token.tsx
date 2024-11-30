@@ -15,18 +15,20 @@ export const DestinationToken = () => {
   });
 
   const value = useMemo(() => {
+    if (!tokenFrom) return "";
+
     if (!data?.address) return "No Peer Token Found";
 
     if (!data.name && !data.symbol) return data.address;
 
     return `${data.name} (${data.symbol})`;
-  }, [data]);
+  }, [data?.address, data?.name, data?.symbol, tokenFrom]);
 
   if (isLoading) return <Skeleton className="h-9 w-full" />;
 
   return (
     <div className="flex h-9 w-full items-center border p-2 text-sm">
-      {value ?? "--"}
+      {value}
     </div>
   );
 };

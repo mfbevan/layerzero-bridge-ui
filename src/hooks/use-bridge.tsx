@@ -1,5 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Options } from "@layerzerolabs/lz-v2-utilities";
+import {
+  bytes32ToEthAddress,
+  hexZeroPadTo32,
+  Options,
+} from "@layerzerolabs/lz-v2-utilities";
 import { useActiveAccount } from "thirdweb/react";
 import { parseEther, zeroPadBytes } from "ethers";
 import { useMemo } from "react";
@@ -75,7 +79,7 @@ export const useBridge = () => {
 
       const sendParams: SendParamStruct = {
         dstEid: chainTo.endpoint,
-        to: zeroPadBytes(to, 32),
+        to: hexZeroPadTo32(to),
         amountLD: amountToSend,
         minAmountLD,
         extraOptions,

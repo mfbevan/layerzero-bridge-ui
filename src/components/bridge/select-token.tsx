@@ -42,14 +42,18 @@ export const SelectToken: FC<SelectTokenProps> = ({
     return chain ? (tokensByNetwork[chain.id] ?? []) : [];
   }, [chain]);
 
-  const options = useMemo(() => {
-    return (
+  const { options, selected } = useMemo(() => {
+    const _options =
       tokens?.map((token) => ({
         value: token.address,
         label: token.name,
-      })) ?? []
+      })) ?? [];
+    const _selected = _options.find(
+      (option) => option.value === value?.address,
     );
-  }, [tokens]);
+
+    return { options: _options, selected: _selected };
+  }, [tokens, value]);
 
   return (
     <Popover open={isOpen} onOpenChange={onToggle}>
@@ -60,10 +64,7 @@ export const SelectToken: FC<SelectTokenProps> = ({
           aria-expanded={isOpen}
           className={cn("w-full justify-between", className)}
         >
-          <></>
-          {value
-            ? options.find((option) => option.value === value.address)?.label
-            : "Select token..."}
+          {selected?.label ?? "Select token..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

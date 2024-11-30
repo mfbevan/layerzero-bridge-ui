@@ -35,16 +35,16 @@ export const useBalance = (options: UseBalanceOptions) => {
         chain: options.chain,
       });
 
-      const [balance] = await Promise.all([erc20.balanceOf(options.address)]);
+      const balance = await erc20.balanceOf(options.address).catch(() => 0n);
 
-      if (!balance) return { balance: 0n, balanceFormatted: "0" };
+      if (!balance) return { balance: 0n, balanceFormatted: "0.0" };
 
       return {
         balance,
         balanceFormatted: formatUnits(balance, 18),
       };
     },
-    throwOnError: true,
     enabled: !!options.address && !!options.chain,
+    retry: false,
   });
 };

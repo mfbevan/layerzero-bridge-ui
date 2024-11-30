@@ -16,6 +16,7 @@ import { EnterAddress } from "./enter-address";
 import { DestinationToken } from "./destination-token";
 import { BridgeButton } from "./bridge-button";
 import { BridgeTx } from "./bridge-tx";
+import { AdvancedModeToggle } from "./mode-toggle";
 
 import { useConfig } from "~/config/environment";
 
@@ -47,61 +48,67 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
   }, [initialState]);
 
   return (
-    <Card className="flex w-full max-w-md flex-col gap-4 border-input p-4">
-      <div className="flex flex-col gap-4">
-        <Label className="font-mono font-bold uppercase">Bridge From</Label>
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-end">
+        <AdvancedModeToggle />
+      </div>
 
-        <div className="flex items-center gap-4">
-          <SelectToken
+      <Card className="flex w-full max-w-md flex-col gap-4 border-input p-4">
+        <div className="flex flex-col gap-4">
+          <Label className="font-mono font-bold uppercase">Bridge From</Label>
+
+          <div className="flex items-center gap-4">
+            <SelectToken
+              chain={chainFrom}
+              value={tokenFrom}
+              onChangeValue={setTokenFrom}
+            />
+            <SelectChain
+              chains={chains}
+              value={chainFrom}
+              onChangeValue={setChainFrom}
+              forceSwitch
+            />
+          </div>
+          <EnterAmount
+            amount={amountFrom}
+            onChange={setAmountFrom}
+            token={tokenFrom}
             chain={chainFrom}
-            value={tokenFrom}
-            onChangeValue={setTokenFrom}
-          />
-          <SelectChain
-            chains={chains}
-            value={chainFrom}
-            onChangeValue={setChainFrom}
-            forceSwitch
-          />
-        </div>
-        <EnterAmount
-          amount={amountFrom}
-          onChange={setAmountFrom}
-          token={tokenFrom}
-          chain={chainFrom}
-        />
-      </div>
-
-      <div
-        className="flex w-full cursor-pointer items-center justify-center gap-2"
-        onClick={flip}
-      >
-        <Separator className="flex-1" />
-        <ArrowUpDown className="size-4" />
-        <Separator className="flex-1" />
-      </div>
-
-      <div className="flex flex-col gap-4">
-        <Label className="font-mono font-bold uppercase">Bridge To</Label>
-
-        <div className="flex items-center gap-4">
-          <DestinationToken />
-
-          <SelectChain
-            chains={chains}
-            value={chainTo}
-            onChangeValue={setChainTo}
           />
         </div>
 
-        <EnterAddress value={addressTo} onChange={setAddressTo} />
-      </div>
+        <div
+          className="flex w-full cursor-pointer items-center justify-center gap-2"
+          onClick={flip}
+        >
+          <Separator className="flex-1" />
+          <ArrowUpDown className="size-4" />
+          <Separator className="flex-1" />
+        </div>
 
-      <Fees />
+        <div className="flex flex-col gap-4">
+          <Label className="font-mono font-bold uppercase">Bridge To</Label>
 
-      <BridgeButton />
+          <div className="flex items-center gap-4">
+            <DestinationToken />
 
-      <BridgeTx tx={tx} receipt={receipt} />
-    </Card>
+            <SelectChain
+              chains={chains}
+              value={chainTo}
+              onChangeValue={setChainTo}
+            />
+          </div>
+
+          <EnterAddress value={addressTo} onChange={setAddressTo} />
+        </div>
+
+        <Fees />
+
+        <BridgeButton />
+
+        <BridgeTx tx={tx} receipt={receipt} />
+      </Card>
+    </div>
   );
 };

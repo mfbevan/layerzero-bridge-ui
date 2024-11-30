@@ -7,6 +7,9 @@ import { create } from "zustand";
 import { type LayerZeroChain } from "~/config/chains/types";
 import { type Token } from "~/config/tokens";
 
+export const bridgeModes = ["simple", "advanced"] as const;
+export type BridgeMode = (typeof bridgeModes)[number];
+
 export interface BridgeStore {
   tokenFrom?: Token;
   setTokenFrom: (token: Token) => void;
@@ -29,6 +32,8 @@ export interface BridgeStore {
   setTx: (tx: ContractTransactionResponse) => void;
   receipt?: ContractTransactionReceipt;
   setReceipt: (receipt: ContractTransactionReceipt) => void;
+  mode: BridgeMode;
+  setMode: (mode: BridgeMode) => void;
 }
 
 export const useBridgeStore = create<BridgeStore>()((set) => ({
@@ -52,4 +57,6 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
   setTx: (tx) => set({ tx }),
   receipt: undefined,
   setReceipt: (receipt) => set({ receipt }),
+  mode: "simple",
+  setMode: (mode) => set({ mode }),
 }));
