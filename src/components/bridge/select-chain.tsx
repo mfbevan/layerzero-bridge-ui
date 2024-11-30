@@ -3,7 +3,7 @@
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useMemo, type FC } from "react";
 import Image from "next/image";
-import { useSwitchActiveWalletChain } from "thirdweb/react";
+import { useActiveAccount, useSwitchActiveWalletChain } from "thirdweb/react";
 
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
@@ -22,7 +22,7 @@ import {
 } from "~/components/ui/popover";
 import { useDisclosure } from "~/hooks/use-disclosure";
 import {
-  getChain,
+  getChainById,
   toThirdwebChain,
   type LayerZeroChain,
 } from "~/config/chains";
@@ -43,6 +43,7 @@ export const SelectChain: FC<SelectChainProps> = ({
   forceSwitch = false,
 }) => {
   const { isOpen, onToggle } = useDisclosure();
+  const account = useActiveAccount();
   const switchChain = useSwitchActiveWalletChain();
 
   const options = useMemo(() => {
@@ -57,17 +58,18 @@ export const SelectChain: FC<SelectChainProps> = ({
   }, [options, value]);
 
   const selectedChain = useMemo(() => {
-    return getChain(Number(selectedOption?.value));
+    return getChainById(Number(selectedOption?.value));
   }, [selectedOption]);
 
   useEffect(() => {
+    if (!account?.address) return;
     if (forceSwitch && selectedOption) {
       const chain = chains.find(
         (chain) => chain.id.toString() === selectedOption.value,
       );
       if (chain) void switchChain(toThirdwebChain(chain));
     }
-  }, [forceSwitch, switchChain, selectedOption, chains]);
+  }, [forceSwitch, switchChain, selectedOption, chains, account?.address]);
 
   return (
     <Popover open={isOpen} onOpenChange={onToggle}>
@@ -103,12 +105,12 @@ export const SelectChain: FC<SelectChainProps> = ({
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    onChangeValue(getChain(Number(currentValue)));
+                    onChangeValue(getChainById(Number(currentValue)));
                     onToggle();
                   }}
                 >
                   <Image
-                    src={getChain(Number(option.value)).icon}
+                    src={getChainById(Number(option.value)).icon}
                     alt={option.label ?? ""}
                     className="size-6"
                     width={24}

@@ -15,6 +15,7 @@ import { SelectToken } from "./select-token";
 import { Fees } from "./fees";
 import { EnterAddress } from "./enter-address";
 import { DestinationToken } from "./destination-token";
+import { BridgeButton } from "./bridge-button";
 
 import { useConfig } from "~/config/environment";
 
@@ -91,7 +92,7 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
 
       <Fees />
 
-      <Button>Bridge</Button>
+      <BridgeButton />
     </Card>
   );
 };
