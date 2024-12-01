@@ -10,6 +10,8 @@ import { type Token } from "~/config/tokens";
 export const bridgeModes = ["simple", "advanced"] as const;
 export type BridgeMode = (typeof bridgeModes)[number];
 
+export const defaultSlippage = 50;
+
 export interface BridgeStore {
   tokenFrom?: Token;
   setTokenFrom: (token: Token) => void;
@@ -34,6 +36,7 @@ export interface BridgeStore {
   setReceipt: (receipt: ContractTransactionReceipt) => void;
   mode: BridgeMode;
   setMode: (mode: BridgeMode) => void;
+  reset: () => void;
 }
 
 export const useBridgeStore = create<BridgeStore>()((set) => ({
@@ -43,7 +46,7 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
   setChainFrom: (chain) => set({ chainFrom: chain }),
   setChainTo: (chain) => set({ chainTo: chain }),
   setAddressTo: (address) => set({ addressTo: address }),
-  slippage: 50,
+  slippage: defaultSlippage,
   setSlippage: (slippage) => set({ slippage }),
   native: true,
   setNative: (native) => set({ native }),
@@ -59,4 +62,18 @@ export const useBridgeStore = create<BridgeStore>()((set) => ({
   setReceipt: (receipt) => set({ receipt }),
   mode: "simple",
   setMode: (mode) => set({ mode }),
+  reset: () =>
+    set({
+      tokenFrom: undefined,
+      amountFrom: undefined,
+      amountTo: undefined,
+      chainFrom: undefined,
+      chainTo: undefined,
+      addressTo: undefined,
+      slippage: defaultSlippage,
+      native: true,
+      tx: undefined,
+      receipt: undefined,
+      mode: "simple",
+    }),
 }));

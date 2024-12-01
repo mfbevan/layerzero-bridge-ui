@@ -2,7 +2,7 @@ import { TriangleAlert } from "lucide-react";
 
 export const PocBanner = () => {
   return (
-    <div className="flex w-full max-w-xs items-center gap-4 border p-4 opacity-50">
+    <div className="flex w-full max-w-xs items-center gap-4 border p-4">
       <div>
         <TriangleAlert className="size-6" />
       </div>

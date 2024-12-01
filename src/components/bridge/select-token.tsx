@@ -1,8 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useMemo, type FC } from "react";
+import { type FC, useState } from "react";
+import { shortenAddress } from "thirdweb/utils";
+
+import { Skeleton } from "../ui/skeleton";
 
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
@@ -22,6 +24,7 @@ import {
 import { useDisclosure } from "~/hooks/use-disclosure";
 import { type LayerZeroChain } from "~/config/chains";
 import { tokensByNetwork, type Token } from "~/config/tokens";
+import { useFindToken } from "~/hooks/use-find-token";
 
 export interface SelectTokenProps {
   chain?: LayerZeroChain;
@@ -37,23 +40,24 @@ export const SelectToken: FC<SelectTokenProps> = ({
   className,
 }) => {
   const { isOpen, onToggle } = useDisclosure();
+  const [search, setSearch] = useState("");
 
-  const tokens = useMemo(() => {
-    return chain ? (tokensByNetwork[chain.id] ?? []) : [];
-  }, [chain]);
+  const { data: searchToken, isFetching } = useFindToken({
+    chain,
+    address: search,
+  });
 
-  const { options, selected } = useMemo(() => {
-    const _options =
-      tokens?.map((token) => ({
-        value: token.address,
-        label: token.name,
-      })) ?? [];
-    const _selected = _options.find(
-      (option) => option.value === value?.address,
-    );
+  const tokens = chain ? (tokensByNetwork[chain.id] ?? []) : [];
 
-    return { options: _options, selected: _selected };
-  }, [tokens, value]);
+  const options = tokens.map((token) => ({
+    value: token.address,
+    label: token.name,
+  }));
+
+  const selected = {
+    value: value?.address,
+    label: value?.name,
+  };
 
   return (
     <Popover open={isOpen} onOpenChange={onToggle}>
@@ -70,7 +74,12 @@ export const SelectToken: FC<SelectTokenProps> = ({
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput placeholder="Search tokens..." className="h-9" />
+          <CommandInput
+            placeholder="Search tokens..."
+            className="h-9"
+            value={search}
+            onValueChange={setSearch}
+          />
           <CommandList>
             <CommandEmpty>No token found.</CommandEmpty>
             <CommandGroup>
@@ -96,6 +105,26 @@ export const SelectToken: FC<SelectTokenProps> = ({
                   />
                 </CommandItem>
               ))}
+
+              {isFetching && (
+                <CommandItem key="loading-search-results" value={search}>
+                  <Skeleton className="h-5 w-full" />
+                </CommandItem>
+              )}
+
+              {searchToken && (
+                <CommandItem
+                  key={searchToken.address}
+                  value={searchToken.address}
+                  onSelect={() => {
+                    onChangeValue(searchToken);
+                    onToggle();
+                  }}
+                >
+                  {searchToken.name ??
+                    `Unknown token (${shortenAddress(searchToken.address)})`}
+                </CommandItem>
+              )}
             </CommandGroup>
           </CommandList>
         </Command>

@@ -1,12 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  bytes32ToEthAddress,
-  hexZeroPadTo32,
-  Options,
-} from "@layerzerolabs/lz-v2-utilities";
+import { hexZeroPadTo32, Options } from "@layerzerolabs/lz-v2-utilities";
 import { useActiveAccount } from "thirdweb/react";
-import { parseEther, zeroPadBytes } from "ethers";
-import { useMemo } from "react";
+import { parseEther } from "ethers";
+import { useEffect, useMemo } from "react";
 
 import { useBridgeStore } from "../components/bridge/bridge-store";
 
@@ -17,6 +13,7 @@ import {
   type MessagingFeeStruct,
   type SendParamStruct,
 } from "~/contracts/typechain/Oft";
+import { submitTransaction } from "~/lib/submit-transaction";
 
 export const ESTIMATE_QUERY_KEY = "bridge-estimate";
 
@@ -123,9 +120,11 @@ export const useBridge = () => {
       const { sendParams, messagingFee } = estimate.data;
       if (!sendParams || !messagingFee) throw new Error("No send quote");
 
-      const tx = await oft.send(sendParams, messagingFee, account.address, {
-        value: messagingFee.nativeFee,
-      });
+      const tx = await submitTransaction(
+        oft.send(sendParams, messagingFee, account.address, {
+          value: messagingFee.nativeFee,
+        }),
+      );
       setTx(tx);
       const receipt = await tx.wait();
       setReceipt(receipt!);

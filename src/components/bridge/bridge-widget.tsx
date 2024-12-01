@@ -16,7 +16,8 @@ import { EnterAddress } from "./enter-address";
 import { DestinationToken } from "./destination-token";
 import { BridgeButton } from "./bridge-button";
 import { BridgeTx } from "./bridge-tx";
-import { AdvancedModeToggle } from "./mode-toggle";
+import { AdvancedModeToggle } from "./advanced/advanced-mode-toggle";
+import { AdvancedSettings } from "./advanced/advanced-settings";
 
 import { useConfig } from "~/config/environment";
 
@@ -109,6 +110,8 @@ export const BridgeWidget: FC<BridgeWidgetProps> = ({ initialState }) => {
 
         <BridgeTx tx={tx} receipt={receipt} />
       </Card>
+
+      <AdvancedSettings />
     </div>
   );
 };

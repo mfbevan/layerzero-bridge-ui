@@ -4,6 +4,9 @@ import { type FC } from "react";
 import Link from "next/link";
 
 import { ColorModeButton } from "./color-mode-button";
+
+import { PocBanner } from "~/components/banners/poc-banner";
+
 export const Footer: FC = () => {
   return (
     <div className="fixed inset-x-0 bottom-0 w-screen border-b p-2 font-mono">
@@ -11,6 +14,8 @@ export const Footer: FC = () => {
         <p className="p-2 text-xs text-muted-foreground">
           Unofficial LayerZero Bridge UI
         </p>
+
+        <PocBanner />
 
         <div className="flex items-center gap-4">
           <p className="text-xs text-muted-foreground">
