@@ -1,4 +1,4 @@
-// import { baseSepolia, optimismSepolia, sepolia } from "./chains/testnet";
+import { baseSepolia, optimismSepolia, sepolia } from "./chains/testnet";
 
 export interface Token {
   address: string;
@@ -29,7 +29,7 @@ export const baseSepoliaToken = {
 };
 
 export const tokensByNetwork: Record<number, Token[]> = {
-  // [sepolia.id]: [sepoliaToken],
-  // [optimismSepolia.id]: [optimismSepoliaToken],
-  // [baseSepolia.id]: [baseSepoliaToken],
+  [sepolia.id]: [sepoliaToken],
+  [optimismSepolia.id]: [optimismSepoliaToken],
+  [baseSepolia.id]: [baseSepoliaToken],
 };
