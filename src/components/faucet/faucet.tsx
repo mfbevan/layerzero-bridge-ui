@@ -8,7 +8,6 @@ import {
   useActiveWalletChain,
   useSwitchActiveWalletChain,
 } from "thirdweb/react";
-import { toast } from "sonner";
 
 import { Card } from "../ui/card";
 import { Label } from "../ui/label";
@@ -28,6 +27,7 @@ import {
   sepoliaToken,
 } from "~/config/tokens";
 import { useSigner } from "~/hooks/use-signer";
+import { submitTransaction } from "~/lib/submit-transaction";
 
 export const Faucet: FC = () => {
   const account = useActiveAccount();
@@ -36,8 +36,9 @@ export const Faucet: FC = () => {
   const signer = useSigner();
 
   const [amount, setAmount] = useState<string>("100");
-  const [chain, setChain] = useState<LayerZeroChain>(sepolia);
+  const [chain, setChain] = useState<LayerZeroChain>();
   const token = useMemo(() => {
+    if (!chain) return;
     return {
       [sepolia.id]: sepoliaToken,
       [optimismSepolia.id]: optimismSepoliaToken,
@@ -58,13 +59,11 @@ export const Faucet: FC = () => {
         ["function mint(address to, uint256 amount) public"],
         signer,
       );
-      void toast.promise(
-        async () => contract.mint?.(account.address, parseEther(amount)),
-        {
-          loading: "Minting...",
-          success: "Minted tokens",
-          error: "Failed to mint",
-        },
+
+      if (!contract.mint) throw new Error("No mint function");
+
+      await submitTransaction(
+        contract.mint?.(account.address, parseEther(amount)),
       );
     },
   });
