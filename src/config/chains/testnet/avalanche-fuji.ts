@@ -10,3 +10,4 @@ export const avalancheFuji: LayerZeroChain = defineLZChain({
   rpc: "https://43113.rpc.thirdweb.com",
   testnet: true,
 });
+
